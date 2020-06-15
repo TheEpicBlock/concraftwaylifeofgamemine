@@ -6,4 +6,5 @@ public class ConwayGameOfBlock extends Block {
     public ConwayGameOfBlock(Settings settings) {
         super(settings);
     }
+
 }
