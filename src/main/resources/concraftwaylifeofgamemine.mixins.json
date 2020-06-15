@@ -1,13 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.fabricmc.example.mixin",
+  "package": "io.github.theepicblock.concraftwaylifeofgamemine.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-  ],
-  "client": [
-    "ExampleMixin"
-  ],
+  ]
   "injectors": {
     "defaultRequire": 1
   }
