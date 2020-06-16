@@ -26,6 +26,7 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.4.0-nightly.1.16-pre5"
 	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:2.4.0-nightly.1.16-pre5"
 }
 
