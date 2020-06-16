@@ -15,7 +15,7 @@ import net.minecraft.util.registry.Registry;
 public class concraftwaylifeofgamemine implements ModInitializer {
     public static final ConwayGameOfBlock CONWAY_GAME_OF_BLOCK = new ConwayGameOfBlock(FabricBlockSettings.of(Material.GLASS));
     public static final String MOD_ID = "concraftwaylifeofgamemine";
-    public static final ComponentType<ChunkLifeUpdateHolder> UPDATEHOLDER = ComponentRegistry.INSTANCE.registerIfAbsent(new Identifier(MOD_ID, "update_holder"), ChunkLifeUpdateHolder.class)
+    public static final ComponentType<ChunkLifeUpdateHolder> UPDATEHOLDER = ComponentRegistry.INSTANCE.registerIfAbsent(new Identifier(MOD_ID, "update_holder"), ChunkLifeUpdateHolder.class);
 
     @Override
     public void onInitialize() {
