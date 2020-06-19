@@ -25,7 +25,9 @@ public class ServerChunkManagerMixin {
 
     @Inject(method = "tickChunks()V", at = @At("HEAD"))
     public void startTick(CallbackInfo ci){
-        ConwayCurrentStep = new ConwayStep();
+        if (ConwayMain.isTickConway(world.getServer().getTicks())) {
+            ConwayCurrentStep = new ConwayStep();
+        }
     }
 
     /**
@@ -34,14 +36,20 @@ public class ServerChunkManagerMixin {
     @SuppressWarnings("UnresolvedMixinReference")
     @Inject(method = "method_20801", at = @At("HEAD"))
     public void chunkUpdateInject(long something, boolean something2, SpawnHelper.Info spawnInfo, boolean something3, int nothing, ChunkHolder chunkHolder, CallbackInfo ci) {
-        int ticks = world.getServer().getTicks();
-        if (ticks % ConwayMain.getConwayTickTime() == 0) {
+        if (ConwayMain.isTickConway(world.getServer().getTicks())) {
             Chunk chunk = chunkHolder.getCompletedChunk();
             if (chunk != null) {
-
-                AliveBlockHolder chunkAliveHolder = ComponentProvider.fromChunk(chunk).getComponent(ConwayMain.UPDATEHOLDER);
-
+                ConwayCurrentStep.add(chunk, this.world);
             }
         }
+    }
+
+    /**
+     * Gets called at the end of a tick
+     */
+    @Inject(method = "tickChunks()V", at = @At("TAIL"))
+    public void endTick(CallbackInfo ci){
+        if (ConwayMain.isTickConway(world.getServer().getTicks()))
+        ConwayCurrentStep.doStuff();
     }
 }

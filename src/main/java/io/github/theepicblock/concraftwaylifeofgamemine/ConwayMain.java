@@ -31,4 +31,7 @@ public class ConwayMain implements ModInitializer {
     public static int getConwayTickTime() {
         return 60;
     }
+    public static boolean isTickConway(int tick) {
+        return tick % getConwayTickTime() == 0;
+    }
 }

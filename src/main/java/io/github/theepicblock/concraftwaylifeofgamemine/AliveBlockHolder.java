@@ -6,34 +6,33 @@ import nerdhub.cardinal.components.api.component.extension.CopyableComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Contains a list of blocks that need to be updated every conway tick.
  */
 public class AliveBlockHolder implements CopyableComponent<AliveBlockHolder> {
-    private final Block2DbyLayer AliveBlocks = new Block2DbyLayer();
+    private final Block2DbyLayer aliveBlocks = new Block2DbyLayer();
 
     public void markForUpdate(BlockPos pos) {
-        AliveBlocks.put(pos);
+        aliveBlocks.put(pos);
     }
 
-    public Int2ObjectArrayMap<List<BlockPos2D>> getAliveBlocks() {
-        return AliveBlocks;
+    public Block2DbyLayer getAliveBlocks() {
+        return aliveBlocks;
     }
 
     @Override
     public void fromTag(CompoundTag compoundTag) {
         if (compoundTag.contains("conway_alive")) {
             long[] toUpdate = compoundTag.getLongArray("Conway_ToUpdate");
-            AliveBlocks.putFromLongList(toUpdate);
+            aliveBlocks.put(toUpdate);
         }
     }
 
     @Override
     public CompoundTag toTag(CompoundTag compoundTag) {
-        compoundTag.putLongArray("conway_alive", AliveBlocks.toLongList());
+        compoundTag.putLongArray("conway_alive", aliveBlocks.toLongList());
         return compoundTag;
     }
 

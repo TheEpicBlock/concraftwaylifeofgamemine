@@ -18,14 +18,33 @@ import java.util.function.LongConsumer;
 public class Block2DbyLayer extends Int2ObjectArrayMap<List<BlockPos2D>> {
     public void put(BlockPos pos) {
         int y = pos.getY();
-        List<BlockPos2D> posList = this.getOrDefault(y, new ArrayList<>());
+        List<BlockPos2D> posList = this.getOrPut(y);;
         posList.add(BlockPos2D.from3D(pos));
     }
 
     public void put(long l) {
         int y = BlockPos.unpackLongY(l);
-        List<BlockPos2D> posList = this.getOrDefault(y, new ArrayList<>());
+        List<BlockPos2D> posList = this.getOrPut(y);
         posList.add(BlockPos2D.fromLong(l));
+    }
+
+    public void put(List<BlockPos2D> blockList, int layer) {
+        this.get(layer).addAll(blockList);
+    }
+
+    public void put(LongList list) {
+        list.forEach((LongConsumer) this::put);
+    }
+    public void put(long[] list) {
+        for (long l : list) {
+            this.put(l);
+        }
+    }
+
+    public void putAll(Block2DbyLayer list) {
+        list.forEach((layer,blockList) -> {
+            this.put(blockList, layer);
+        });
     }
 
     public List<BlockPos> toBlockPosList() {
@@ -34,6 +53,15 @@ public class Block2DbyLayer extends Int2ObjectArrayMap<List<BlockPos2D>> {
             l.add(blockPos2D.to3D(layer));
         });
         return l;
+    }
+
+    public List<BlockPos2D> getOrPut(int layer) {
+        List<BlockPos2D> posList = this.get(layer);
+        if (posList == null) {
+            posList = new ArrayList<>();
+            this.put(layer, posList);
+        }
+        return posList;
     }
 
     public LongList toLongList() {
@@ -50,14 +78,5 @@ public class Block2DbyLayer extends Int2ObjectArrayMap<List<BlockPos2D>> {
                 action.accept(layer,blockPos2D);
             });
         });
-    }
-
-    public void putFromLongList(LongList list) {
-        list.forEach((LongConsumer) this::put);
-    }
-    public void putFromLongList(long[] list) {
-        for (long l : list) {
-            this.put(l);
-        }
     }
 }
