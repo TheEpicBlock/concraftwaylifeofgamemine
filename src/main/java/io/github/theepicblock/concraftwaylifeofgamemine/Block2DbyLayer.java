@@ -16,7 +16,7 @@ import java.util.function.LongConsumer;
 public class Block2DbyLayer extends Int2ObjectArrayMap<List<BlockPos2D>> {
     public void put(BlockPos pos) {
         int y = pos.getY();
-        List<BlockPos2D> posList = this.getOrPut(y);;
+        List<BlockPos2D> posList = this.getOrPut(y);
         posList.add(BlockPos2D.from3D(pos));
     }
 
@@ -40,16 +40,12 @@ public class Block2DbyLayer extends Int2ObjectArrayMap<List<BlockPos2D>> {
     }
 
     public void putAll(Block2DbyLayer list) {
-        list.forEach((layer,blockList) -> {
-            this.put(blockList, layer);
-        });
+        list.forEach((layer,blockList) -> this.put(blockList, layer));
     }
 
     public List<BlockPos> toBlockPosList() {
         List<BlockPos> l = new ArrayList<>();
-        forEachBlock((layer,blockPos2D) -> {
-            l.add(blockPos2D.to3D(layer));
-        });
+        forEachBlock((layer,blockPos2D) -> l.add(blockPos2D.to3D(layer)));
         return l;
     }
 
@@ -64,17 +60,11 @@ public class Block2DbyLayer extends Int2ObjectArrayMap<List<BlockPos2D>> {
 
     public LongList toLongList() {
         LongList l = new LongArrayList();
-        forEachBlock((layer,blockPos2D) -> {
-            l.add(blockPos2D.toLong(layer));
-        });
+        forEachBlock((layer,blockPos2D) -> l.add(blockPos2D.toLong(layer)));
         return l;
     }
 
     public void forEachBlock(BiConsumer<? super Integer, ? super BlockPos2D> action) {
-        this.forEach((layer,Block2dList) -> {
-            Block2dList.forEach((blockPos2D) -> {
-                action.accept(layer,blockPos2D);
-            });
-        });
+        this.forEach((layer,Block2dList) -> Block2dList.forEach((blockPos2D) -> action.accept(layer, blockPos2D)));
     }
 }

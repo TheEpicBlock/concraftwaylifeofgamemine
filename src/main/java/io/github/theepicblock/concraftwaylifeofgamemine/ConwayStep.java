@@ -28,9 +28,7 @@ public class ConwayStep {
     public void doStuff() {
         System.out.println("DOING STUFF!!");
         System.out.println(world.getDimension() == DimensionType.getOverworldDimensionType() ? "overworld" : "some other dimension");
-        aliveBlocks.forEach((layer,list) -> {
-            System.out.println(layer + ": " + list.size());
-        });
+        aliveBlocks.forEach((layer,list) -> System.out.println(layer + ": " + list.size()));
     }
 
     public static AliveBlockHolder getAliveHolderFromChunk(Chunk chunk) {
