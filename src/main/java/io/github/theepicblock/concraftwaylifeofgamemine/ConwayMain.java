@@ -32,5 +32,6 @@ public class ConwayMain implements ModInitializer {
     }
     public static boolean isTickConway(int tick) {
         return tick % getConwayTickTime() == 0;
+        //TODO tick is based on when the server first started. It isn't persistent
     }
 }
