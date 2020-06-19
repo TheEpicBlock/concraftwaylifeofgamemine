@@ -5,11 +5,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.CollisionView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+
+import java.util.Random;
 
 public class ConwayGameOfBlock extends Block {
     public ConwayGameOfBlock(Settings settings) {
@@ -17,8 +20,7 @@ public class ConwayGameOfBlock extends Block {
     }
 
     @Override
-    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
-        super.onPlaced(world, pos, state, placer, itemStack);
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (!world.isClient) {
             AliveBlockHolder updateHolder = getUpdateHolder(world,pos);
             if (updateHolder != null) {
