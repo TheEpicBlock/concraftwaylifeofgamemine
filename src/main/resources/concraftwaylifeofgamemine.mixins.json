@@ -4,7 +4,8 @@
   "package": "io.github.theepicblock.concraftwaylifeofgamemine.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-  ]
+    "ServerChunkManagerMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

@@ -19,7 +19,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.theepicblock.concraftwaylifeofgamemine.concraftwaylifeofgamemine"
+      "io.github.theepicblock.concraftwaylifeofgamemine.ConwayMain"
     ]
   },
   "mixins": [
