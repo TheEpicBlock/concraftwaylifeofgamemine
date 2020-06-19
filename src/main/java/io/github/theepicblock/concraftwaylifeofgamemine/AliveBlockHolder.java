@@ -20,6 +20,10 @@ public class AliveBlockHolder implements CopyableComponent {
         AliveBlocks.add(pos.asLong());
     }
 
+    public LongList getAlive() {
+        return AliveBlocks;
+    }
+
     @Override
     public void fromTag(CompoundTag compoundTag) {
         if (compoundTag.contains("conway_alive")) {
