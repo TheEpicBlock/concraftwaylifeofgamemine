@@ -1,9 +1,7 @@
 package io.github.theepicblock.concraftwaylifeofgamemine.mixin;
 
-import io.github.theepicblock.concraftwaylifeofgamemine.AliveBlockHolder;
 import io.github.theepicblock.concraftwaylifeofgamemine.ConwayMain;
 import io.github.theepicblock.concraftwaylifeofgamemine.ConwayStep;
-import nerdhub.cardinal.components.api.component.ComponentProvider;
 import net.minecraft.server.world.ChunkHolder;
 import net.minecraft.server.world.ServerChunkManager;
 import net.minecraft.server.world.ServerWorld;
@@ -16,8 +14,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static nerdhub.cardinal.components.api.component.ComponentProvider.fromChunk;
-
 @Mixin(ServerChunkManager.class)
 public class ServerChunkManagerMixin {
     private ConwayStep ConwayCurrentStep;
@@ -26,7 +22,7 @@ public class ServerChunkManagerMixin {
     @Inject(method = "tickChunks()V", at = @At("HEAD"))
     public void startTick(CallbackInfo ci){
         if (ConwayMain.isTickConway(world.getServer().getTicks())) {
-            ConwayCurrentStep = new ConwayStep();
+            ConwayCurrentStep = new ConwayStep(world);
         }
     }
 
@@ -38,8 +34,8 @@ public class ServerChunkManagerMixin {
     public void chunkUpdateInject(long something, boolean something2, SpawnHelper.Info spawnInfo, boolean something3, int nothing, ChunkHolder chunkHolder, CallbackInfo ci) {
         if (ConwayMain.isTickConway(world.getServer().getTicks())) {
             Chunk chunk = chunkHolder.getCompletedChunk();
-            if (chunk != null) {
-                ConwayCurrentStep.add(chunk, this.world);
+            if (chunk != null && chunkHolder.isTicking()) {
+                ConwayCurrentStep.add(chunk);
             }
         }
     }

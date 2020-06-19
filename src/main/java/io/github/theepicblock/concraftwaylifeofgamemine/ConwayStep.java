@@ -1,7 +1,5 @@
 package io.github.theepicblock.concraftwaylifeofgamemine;
 
-import it.unimi.dsi.fastutil.longs.LongList;
-import jdk.nashorn.internal.ir.Block;
 import nerdhub.cardinal.components.api.component.ComponentProvider;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -14,28 +12,26 @@ import java.util.List;
 import java.util.Map;
 
 public class ConwayStep {
-    private final Map<World, Block2DbyLayer> aliveBlocks = new HashMap<>();
+    private final World world;
+    private final Block2DbyLayer aliveBlocks = new Block2DbyLayer();
     private final List<ChunkPos> indexedChunks = new ArrayList<>();
 
-    public void add(Chunk chunk, World world) {
+    public ConwayStep(World world) {
+        this.world = world;
+    }
+
+    public void add(Chunk chunk) {
         indexedChunks.add(chunk.getPos());
 
         AliveBlockHolder chunkAliveHolder = getAliveHolderFromChunk(chunk);
-        Block2DbyLayer storedBlocks = aliveBlocks.get(world); //Get's the stored blocks in this world
-        if (storedBlocks == null) {
-            storedBlocks = new Block2DbyLayer();
-            aliveBlocks.put(world, storedBlocks);
-        }
-        storedBlocks.putAll(chunkAliveHolder.getAliveBlocks());
+        aliveBlocks.putAll(chunkAliveHolder.getAliveBlocks());
     }
 
     public void doStuff() {
         System.out.println("DOING STUFF!!");
-        aliveBlocks.forEach((world,blockLayerList) -> {
-            System.out.println(world.getDimension() == DimensionType.getOverworldDimensionType() ? "overworld" : "some other dimension");
-            blockLayerList.forEach((layer,list) -> {
-                System.out.println(layer + ": " + list.size());
-            });
+        System.out.println(world.getDimension() == DimensionType.getOverworldDimensionType() ? "overworld" : "some other dimension");
+        aliveBlocks.forEach((layer,list) -> {
+            System.out.println(layer + ": " + list.size());
         });
     }
 
