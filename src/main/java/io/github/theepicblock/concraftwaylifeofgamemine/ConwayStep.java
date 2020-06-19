@@ -7,9 +7,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.DimensionType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ConwayStep {
     private final World world;

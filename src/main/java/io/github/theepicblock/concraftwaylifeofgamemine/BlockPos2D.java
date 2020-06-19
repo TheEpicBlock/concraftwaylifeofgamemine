@@ -1,12 +1,7 @@
 package io.github.theepicblock.concraftwaylifeofgamemine;
 
-import com.mojang.serialization.Codec;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import org.apache.logging.log4j.LogManager;
-
-import java.util.stream.IntStream;
 
 public class BlockPos2D {
     private final int x;

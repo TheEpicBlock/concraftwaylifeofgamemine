@@ -1,12 +1,9 @@
 package io.github.theepicblock.concraftwaylifeofgamemine;
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import nerdhub.cardinal.components.api.ComponentType;
 import nerdhub.cardinal.components.api.component.extension.CopyableComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.List;
 
 /**
  * Contains a list of blocks that need to be updated every conway tick.
