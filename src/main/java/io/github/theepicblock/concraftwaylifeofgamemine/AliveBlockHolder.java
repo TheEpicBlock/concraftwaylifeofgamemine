@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Contains a list of blocks that need to be updated every conway tick.
  */
-public class AliveBlockHolder implements CopyableComponent {
+public class AliveBlockHolder implements CopyableComponent<AliveBlockHolder> {
     private final Block2DbyLayer AliveBlocks = new Block2DbyLayer();
 
     public void markForUpdate(BlockPos pos) {
