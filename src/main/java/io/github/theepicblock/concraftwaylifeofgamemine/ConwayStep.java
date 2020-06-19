@@ -31,6 +31,7 @@ public class ConwayStep {
         aliveBlocks.forEach((layer,list) -> System.out.println(layer + ": " + list.size()));
     }
 
+
     public static AliveBlockHolder getAliveHolderFromChunk(Chunk chunk) {
         return ComponentProvider.fromChunk(chunk).getComponent(ConwayMain.UPDATEHOLDER);
     }
