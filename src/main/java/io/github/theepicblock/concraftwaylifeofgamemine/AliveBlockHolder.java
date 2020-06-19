@@ -1,26 +1,25 @@
 package io.github.theepicblock.concraftwaylifeofgamemine;
 
-import it.unimi.dsi.fastutil.longs.LongArrayList;
-import it.unimi.dsi.fastutil.longs.LongList;
+import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import nerdhub.cardinal.components.api.ComponentType;
 import nerdhub.cardinal.components.api.component.extension.CopyableComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Contains a list of blocks that need to be updated every conway tick.
  */
 public class AliveBlockHolder implements CopyableComponent {
-    private final LongList AliveBlocks = new LongArrayList();
+    private final Block2DbyLayer AliveBlocks = new Block2DbyLayer();
 
     public void markForUpdate(BlockPos pos) {
-        for(long l : AliveBlocks) {
-            System.out.println(l);
-        }
-        AliveBlocks.add(pos.asLong());
+        AliveBlocks.put(pos);
     }
 
-    public LongList getAlive() {
+    public Int2ObjectArrayMap<List<BlockPos2D>> getAliveBlocks() {
         return AliveBlocks;
     }
 
@@ -28,15 +27,13 @@ public class AliveBlockHolder implements CopyableComponent {
     public void fromTag(CompoundTag compoundTag) {
         if (compoundTag.contains("conway_alive")) {
             long[] toUpdate = compoundTag.getLongArray("Conway_ToUpdate");
-            for (long i: toUpdate) {
-                AliveBlocks.add(i);
-            }
+            AliveBlocks.putFromLongList(toUpdate);
         }
     }
 
     @Override
     public CompoundTag toTag(CompoundTag compoundTag) {
-        compoundTag.putLongArray("conway_alive", AliveBlocks);
+        compoundTag.putLongArray("conway_alive", AliveBlocks.toLongList());
         return compoundTag;
     }
 
