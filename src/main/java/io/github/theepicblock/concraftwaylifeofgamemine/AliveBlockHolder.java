@@ -22,7 +22,7 @@ public class AliveBlockHolder implements CopyableComponent<AliveBlockHolder> {
     @Override
     public void fromTag(CompoundTag compoundTag) {
         if (compoundTag.contains("conway_alive")) {
-            long[] toUpdate = compoundTag.getLongArray("Conway_ToUpdate");
+            long[] toUpdate = compoundTag.getLongArray("conway_alive");
             aliveBlocks.put(toUpdate);
         }
     }

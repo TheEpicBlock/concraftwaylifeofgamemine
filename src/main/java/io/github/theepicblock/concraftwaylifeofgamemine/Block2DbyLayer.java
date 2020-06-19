@@ -27,7 +27,7 @@ public class Block2DbyLayer extends Int2ObjectArrayMap<List<BlockPos2D>> {
     }
 
     public void put(List<BlockPos2D> blockList, int layer) {
-        this.get(layer).addAll(blockList);
+        this.getOrPut(layer).addAll(blockList);
     }
 
     public void put(LongList list) {
