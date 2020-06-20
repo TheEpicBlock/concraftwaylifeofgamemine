@@ -22,8 +22,8 @@ public class ConwayGameOfBlock extends Block {
     }
 
     @Override
-    public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        if (!world.isClient()) {
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (!world.isClient() && newState.getBlock() != ConwayMain.CONWAY_GAME_OF_BLOCK) {
             AliveBlockHolder updateHolder = getUpdateHolder(world,pos);
             if (updateHolder != null) {
                 updateHolder.remove(pos);
