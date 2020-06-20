@@ -15,6 +15,7 @@ import java.util.List;
 public class AliveBlockHolder implements CopyableComponent<AliveBlockHolder> {
     private final Block2DbyLayer aliveBlocks = new Block2DbyLayer(0);
     private final List<ChunkPos> toLoad = new ArrayList<>(0);
+    //TODO add a command to re sync this list with the actual blocks
 
     public void add(BlockPos pos) {
         aliveBlocks.put(pos);
