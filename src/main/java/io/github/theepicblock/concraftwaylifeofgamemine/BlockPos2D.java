@@ -4,6 +4,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -56,6 +57,20 @@ public class BlockPos2D {
 
     public ChunkPos toChunkPos() {
         return new ChunkPos(this.x >> 4, this.z >> 4);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BlockPos2D that = (BlockPos2D) o;
+        return x == that.x &&
+               z == that.z;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, z);
     }
 
     public static BlockPos2D fromLong(long Long) {
