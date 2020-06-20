@@ -78,7 +78,7 @@ public class BlockPos2D {
     }
 
     public static BlockPos2D from3D(BlockPos pos) {
-        return new BlockPos2D(pos.getX(),pos.getY());
+        return new BlockPos2D(pos.getX(),pos.getZ());
     }
 
     //GENERAL UTILS
