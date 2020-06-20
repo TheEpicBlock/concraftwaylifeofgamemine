@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ConwayStep {
     private final World world;
-    private final Block2DbyLayer aliveBlocks = new Block2DbyLayer();
+    private final Block2DbyLayer aliveBlocks = new Block2DbyLayer(10);
     private final List<ChunkPos> indexedChunks = new ArrayList<>();
 
     public ConwayStep(World world) {
