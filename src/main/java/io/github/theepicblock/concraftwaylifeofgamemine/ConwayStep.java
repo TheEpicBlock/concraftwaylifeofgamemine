@@ -26,8 +26,8 @@ public class ConwayStep {
     }
 
     public void doStuff() {
+        if(!(world.getDimension() == DimensionType.getOverworldDimensionType())) return;
         System.out.println("DOING STUFF!!");
-        System.out.println(world.getDimension() == DimensionType.getOverworldDimensionType() ? "overworld" : "some other dimension");
         aliveBlocks.forEachBlock((layer, block) -> System.out.println(block.getX()+","+block.getZ()));
     }
 
