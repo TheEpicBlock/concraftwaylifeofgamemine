@@ -3,34 +3,36 @@ package io.github.theepicblock.concraftwaylifeofgamemine;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.longs.LongList;
+import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
 
 /**
  * provides some functions so you don't have to directly interface with an Int2ObjectArrayMap<List<BlockPos2D>>
  */
-public class Block2DbyLayer extends Int2ObjectArrayMap<List<BlockPos2D>> {
+public class Block2DbyLayer extends Int2ObjectArrayMap<Set<BlockPos2D>> {
     public Block2DbyLayer(final int capacity) {
         super(capacity);
     }
 
     public void put(BlockPos pos) {
         int y = pos.getY();
-        List<BlockPos2D> posList = this.getOrPut(y);
+        Set<BlockPos2D> posList = this.getOrPut(y);
         posList.add(BlockPos2D.from3D(pos));
     }
 
     public void put(long l) {
         int y = BlockPos.unpackLongY(l);
-        List<BlockPos2D> posList = this.getOrPut(y);
+        Set<BlockPos2D> posList = this.getOrPut(y);
         posList.add(BlockPos2D.fromLong(l));
     }
 
-    public void put(List<BlockPos2D> blockList, int layer) {
+    public void put(Set<BlockPos2D> blockList, int layer) {
         this.getOrPut(layer).addAll(blockList);
     }
 
@@ -50,7 +52,7 @@ public class Block2DbyLayer extends Int2ObjectArrayMap<List<BlockPos2D>> {
 
     public void remove(BlockPos pos) {
         int y = pos.getY();
-        List<BlockPos2D> posList = this.get(y);
+        Set<BlockPos2D> posList = this.get(y);
         if (posList != null) {
             posList.remove(BlockPos2D.from3D(pos));
         }
@@ -62,10 +64,10 @@ public class Block2DbyLayer extends Int2ObjectArrayMap<List<BlockPos2D>> {
         return l;
     }
 
-    public List<BlockPos2D> getOrPut(int layer) {
-        List<BlockPos2D> posList = this.get(layer);
+    public Set<BlockPos2D> getOrPut(int layer) {
+        Set<BlockPos2D> posList = this.get(layer);
         if (posList == null) {
-            posList = new ArrayList<>();
+            posList = new ObjectArraySet<>();
             this.put(layer, posList);
         }
         return posList;
