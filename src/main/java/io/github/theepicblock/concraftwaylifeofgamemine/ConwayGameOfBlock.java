@@ -23,8 +23,12 @@ public class ConwayGameOfBlock extends Block {
 
     @Override
     public void onBroken(WorldAccess world, BlockPos pos, BlockState state) {
-        super.onBroken(world, pos, state);
-        //TODO remove from Alive block list
+        if (!world.isClient()) {
+            AliveBlockHolder updateHolder = getUpdateHolder(world,pos);
+            if (updateHolder != null) {
+                updateHolder.remove(pos);
+            }
+        }
     }
 
     private AliveBlockHolder getUpdateHolder(BlockView blockView, BlockPos pos) {
