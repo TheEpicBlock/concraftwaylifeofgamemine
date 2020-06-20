@@ -13,16 +13,20 @@ import java.util.List;
  * Contains a list of blocks that need to be updated every conway tick.
  */
 public class AliveBlockHolder implements CopyableComponent<AliveBlockHolder> {
-    private final Block2DbyLayer aliveBlocks = new Block2DbyLayer();
+    private final Block2DbyLayer aliveBlocks = new Block2DbyLayer(0);
     private final List<ChunkPos> toLoad = new ArrayList<>(0);
 
-    public void markForUpdate(BlockPos pos) {
+    public void add(BlockPos pos) {
         aliveBlocks.put(pos);
-        int xRel = pos.getX() % 16;
-        int zRel = pos.getZ() % 16;
-        if (xRel == 0 | xRel == 1 | zRel == 0 | zRel == 1) {
+        int xRel = pos.getX() & 15;
+        int zRel = pos.getZ() & 15;
+        if (xRel == 0 | xRel == 15 | zRel == 0 | zRel == 15) {
             System.out.println("BORDER");
         }
+    }
+
+    public void remove(BlockPos pos) {
+        aliveBlocks.remove(pos);
     }
 
     public Block2DbyLayer getAliveBlocks() {

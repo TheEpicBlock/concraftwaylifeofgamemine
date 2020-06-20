@@ -14,6 +14,10 @@ import java.util.function.LongConsumer;
  * provides some functions so you don't have to directly interface with an Int2ObjectArrayMap<List<BlockPos2D>>
  */
 public class Block2DbyLayer extends Int2ObjectArrayMap<List<BlockPos2D>> {
+    public Block2DbyLayer(final int capacity) {
+        super(capacity);
+    }
+
     public void put(BlockPos pos) {
         int y = pos.getY();
         List<BlockPos2D> posList = this.getOrPut(y);
@@ -33,6 +37,7 @@ public class Block2DbyLayer extends Int2ObjectArrayMap<List<BlockPos2D>> {
     public void put(LongList list) {
         list.forEach((LongConsumer) this::put);
     }
+
     public void put(long[] list) {
         for (long l : list) {
             this.put(l);
@@ -41,6 +46,14 @@ public class Block2DbyLayer extends Int2ObjectArrayMap<List<BlockPos2D>> {
 
     public void putAll(Block2DbyLayer list) {
         list.forEach((layer,blockList) -> this.put(blockList, layer));
+    }
+
+    public void remove(BlockPos pos) {
+        int y = pos.getY();
+        List<BlockPos2D> posList = this.get(y);
+        if (posList != null) {
+            posList.remove(BlockPos2D.from3D(pos));
+        }
     }
 
     public List<BlockPos> toBlockPosList() {

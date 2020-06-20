@@ -3,15 +3,8 @@ package io.github.theepicblock.concraftwaylifeofgamemine;
 import nerdhub.cardinal.components.api.component.ComponentProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.*;
-
-import java.util.Random;
 
 public class ConwayGameOfBlock extends Block {
     public ConwayGameOfBlock(Settings settings) {
@@ -23,7 +16,7 @@ public class ConwayGameOfBlock extends Block {
         if (!world.isClient) {
             AliveBlockHolder updateHolder = getUpdateHolder(world,pos);
             if (updateHolder != null) {
-                updateHolder.markForUpdate(pos);
+                updateHolder.add(pos);
             }
         }
     }
