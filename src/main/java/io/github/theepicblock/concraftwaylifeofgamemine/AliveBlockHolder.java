@@ -8,6 +8,7 @@ import net.minecraft.util.math.ChunkPos;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Contains a list of blocks that need to be updated every conway tick.
@@ -19,19 +20,23 @@ public class AliveBlockHolder implements CopyableComponent<AliveBlockHolder> {
 
     public void add(BlockPos pos) {
         aliveBlocks.put(pos);
-        int xRel = pos.getX() & 15;
-        int zRel = pos.getZ() & 15;
-        if (xRel == 0 | xRel == 15 | zRel == 0 | zRel == 15) {
-            System.out.println("BORDER");
-        }
+        BlockPos2D.forChunkBorders(pos, toLoad::add);
     }
 
     public void remove(BlockPos pos) {
         aliveBlocks.remove(pos);
+        if (BlockPos2D.isOnChunkBorder(pos)) {
+            recalculateToLoad();
+        }
     }
 
     public Block2DbyLayer getAliveBlocks() {
         return aliveBlocks;
+    }
+
+    public void recalculateToLoad() {
+        toLoad.clear();
+        aliveBlocks.forEachBlock((layer,pos) -> BlockPos2D.forChunkBorders(pos, toLoad::add));
     }
 
     @Override
