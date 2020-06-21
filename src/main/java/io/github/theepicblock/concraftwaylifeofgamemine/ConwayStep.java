@@ -2,7 +2,6 @@ package io.github.theepicblock.concraftwaylifeofgamemine;
 
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import nerdhub.cardinal.components.api.component.ComponentProvider;
-import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -10,7 +9,6 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.DimensionType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -18,7 +16,6 @@ public class ConwayStep {
     private final World world;
     private final Block2DbyLayer aliveBlocks = new Block2DbyLayer(10);
     private final List<ChunkPos> indexedChunks = new ArrayList<>();
-    private final List<ChunkPos> toBeLoaded = new ArrayList<>();
 
     public ConwayStep(World world) {
         this.world = world;

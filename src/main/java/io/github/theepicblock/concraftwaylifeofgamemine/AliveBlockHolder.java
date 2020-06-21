@@ -15,28 +15,18 @@ import java.util.function.Consumer;
  */
 public class AliveBlockHolder implements CopyableComponent<AliveBlockHolder> {
     private final Block2DbyLayer aliveBlocks = new Block2DbyLayer(0);
-    private final List<ChunkPos> toLoad = new ArrayList<>(0);
     //TODO add a command to re sync this list with the actual blocks
 
     public void add(BlockPos pos) {
         aliveBlocks.put(pos);
-        BlockPos2D.forChunkBorders(pos, toLoad::add);
     }
 
     public void remove(BlockPos pos) {
         aliveBlocks.remove(pos);
-        if (BlockPos2D.isOnChunkBorder(pos)) {
-            recalculateToLoad();
-        }
     }
 
     public Block2DbyLayer getAliveBlocks() {
         return aliveBlocks;
-    }
-
-    public void recalculateToLoad() {
-        toLoad.clear();
-        aliveBlocks.forEachBlock((layer,pos) -> BlockPos2D.forChunkBorders(pos, toLoad::add));
     }
 
     @Override
