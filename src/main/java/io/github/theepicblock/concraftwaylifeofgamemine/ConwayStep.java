@@ -49,7 +49,7 @@ public class ConwayStep {
     public static Set<BlockPos2D> updateLayer(Set<BlockPos2D> alive) {
         Set<BlockPos2D> toUpdate = new ObjectArraySet<>();
         Set<BlockPos2D> newAlive = new ObjectArraySet<>();
-        alive.forEach((pos) -> BlockPos2D.addNeighbours(pos,newAlive));
+        alive.forEach((pos) -> BlockPos2D.addNeighbours(pos,toUpdate));
         toUpdate.forEach((pos) -> {
             //see https://en.wikipedia.org/wiki/Conway_game#Rules (the condensed rules)
             int c = countNeighbours(alive, pos);
