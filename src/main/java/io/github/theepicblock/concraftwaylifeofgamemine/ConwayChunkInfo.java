@@ -34,10 +34,6 @@ public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
         }
     }
 
-    public Block2DbyLayer getAliveBlocks() {
-        return aliveBlocks;
-    }
-
     public void recalculateToLoad() {
         toLoad.clear();
         aliveBlocks.forEachBlock((layer,pos) -> this.addToLoads(pos));
@@ -112,5 +108,13 @@ public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
     @Override
     public ComponentType<?> getComponentType() {
         return ConwayMain.CHUNKINFO;
+    }
+
+    public Block2DbyLayer getAliveBlocks() {
+        return aliveBlocks;
+    }
+
+    public List<ChunkPos> getToLoad() {
+        return toLoad;
     }
 }

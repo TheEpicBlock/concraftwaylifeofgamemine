@@ -6,7 +6,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.dimension.DimensionType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +24,21 @@ public class ConwayStep {
     public void add(Chunk chunk) {
         indexedChunks.add(chunk.getPos());
 
-        ConwayChunkInfo chunkAliveHolder = getChunkInfo(chunk);
-        aliveBlocks.putAll(chunkAliveHolder.getAliveBlocks());
+        ConwayChunkInfo chunkInfo = getChunkInfo(chunk);
+        aliveBlocks.putAll(chunkInfo.getAliveBlocks());
+        toBeLoaded.addAll(chunkInfo.getToLoad());
+    }
+
+    public void add(ChunkPos pos) {
+        add(world.getChunk(pos.getCenterBlockPos()));
     }
 
     public void doStuff() {
-        if(!(world.getDimension() == DimensionType.getOverworldDimensionType())) return;
-        System.out.println("DOING STUFF!!");
+        //make sure all the chunks are loaded
+        toBeLoaded.removeAll(indexedChunks);
+        toBeLoaded.forEach(this::add);
+
         aliveBlocks.forEach((layer,blockList) -> {
-            System.out.println("processing layer: " + layer);
             Set<BlockPos2D> newList = updateLayer(blockList);
             List<BlockPos2D> toRemove = new ArrayList<>(blockList);
             toRemove.removeAll(newList);
