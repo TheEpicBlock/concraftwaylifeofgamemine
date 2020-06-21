@@ -73,6 +73,11 @@ public class BlockPos2D {
         return Objects.hash(x, z);
     }
 
+    @Override
+    public String toString() {
+        return x + "," + z;
+    }
+
     public static BlockPos2D fromLong(long Long) {
         return new BlockPos2D(BlockPos.unpackLongX(Long),BlockPos.unpackLongZ(Long));
     }
