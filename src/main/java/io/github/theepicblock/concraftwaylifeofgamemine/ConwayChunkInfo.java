@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Contains a list of blocks that need to be updated every conway tick.
  */
-public class AliveBlockHolder implements CopyableComponent<AliveBlockHolder> {
+public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
     private final Block2DbyLayer aliveBlocks = new Block2DbyLayer(0);
     private final List<ChunkPos> toLoad = new ArrayList<>(0);
     //TODO add a command to re sync this list with the actual blocks
@@ -44,16 +44,27 @@ public class AliveBlockHolder implements CopyableComponent<AliveBlockHolder> {
             long[] toUpdate = compoundTag.getLongArray("conway_alive");
             aliveBlocks.put(toUpdate);
         }
+        if (compoundTag.contains("conway_borders")) {
+            long[] toUpdate = compoundTag.getLongArray("conway_borders");
+            for (long l : toUpdate) {
+                toLoad.add(new ChunkPos(l));
+            }
+        }
     }
 
     @Override
     public CompoundTag toTag(CompoundTag compoundTag) {
         compoundTag.putLongArray("conway_alive", aliveBlocks.toLongList());
+        long[] toLoadLong = new long[toLoad.size()];
+        for (int i = 0; i < toLoad.size(); i++) {
+            toLoadLong[i]  = toLoad.get(i).toLong();
+        }
+        compoundTag.putLongArray("conway_borders", toLoadLong);
         return compoundTag;
     }
 
     @Override
     public ComponentType<?> getComponentType() {
-        return ConwayMain.UPDATEHOLDER;
+        return ConwayMain.CHUNKINFO;
     }
 }

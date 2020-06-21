@@ -25,7 +25,7 @@ public class ConwayStep {
     public void add(Chunk chunk) {
         indexedChunks.add(chunk.getPos());
 
-        AliveBlockHolder chunkAliveHolder = getAliveHolderFromChunk(chunk);
+        ConwayChunkInfo chunkAliveHolder = getChunkInfo(chunk);
         aliveBlocks.putAll(chunkAliveHolder.getAliveBlocks());
     }
 
@@ -73,7 +73,7 @@ public class ConwayStep {
         return i;
     }
 
-    public static AliveBlockHolder getAliveHolderFromChunk(Chunk chunk) {
-        return ComponentProvider.fromChunk(chunk).getComponent(ConwayMain.UPDATEHOLDER);
+    public static ConwayChunkInfo getChunkInfo(Chunk chunk) {
+        return ComponentProvider.fromChunk(chunk).getComponent(ConwayMain.CHUNKINFO);
     }
 }

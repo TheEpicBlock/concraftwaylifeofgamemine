@@ -15,10 +15,10 @@ import net.minecraft.util.registry.Registry;
 public class ConwayMain implements ModInitializer {
     public static final ConwayGameOfBlock CONWAY_GAME_OF_BLOCK = new ConwayGameOfBlock(FabricBlockSettings.of(Material.GLASS));
     public static final String MOD_ID = "concraftwaylifeofgamemine";
-    public static final ComponentType<AliveBlockHolder> UPDATEHOLDER = ComponentRegistry.INSTANCE.registerIfAbsent(new Identifier(MOD_ID, "update_holder"), AliveBlockHolder.class);
+    public static final ComponentType<ConwayChunkInfo> CHUNKINFO = ComponentRegistry.INSTANCE.registerIfAbsent(new Identifier(MOD_ID, "update_holder"), ConwayChunkInfo.class);
 
     static {
-        ChunkComponentCallback.EVENT.register((chunk, components) -> components.put(UPDATEHOLDER, new AliveBlockHolder()));
+        ChunkComponentCallback.EVENT.register((chunk, components) -> components.put(CHUNKINFO, new ConwayChunkInfo()));
     }
 
     @Override
