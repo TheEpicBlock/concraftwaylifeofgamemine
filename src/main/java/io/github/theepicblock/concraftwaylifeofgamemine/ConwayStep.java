@@ -36,10 +36,17 @@ public class ConwayStep {
     public void doStuff() {
         //make sure all the chunks are loaded
         toBeLoaded.removeAll(indexedChunks);
-        toBeLoaded.forEach(this::add);
+        while (!toBeLoaded.isEmpty()) {
+            add(toBeLoaded.get(0));
+            toBeLoaded.removeAll(indexedChunks);
+        }
 
+        System.out.println("processing " + indexedChunks.size() + " chunks");
+
+        //Update layers
         aliveBlocks.forEach((layer,blockList) -> {
             Set<BlockPos2D> newList = updateLayer(blockList);
+            System.out.println(newList.size());
             List<BlockPos2D> toRemove = new ArrayList<>(blockList);
             toRemove.removeAll(newList);
             newList.removeAll(blockList);
