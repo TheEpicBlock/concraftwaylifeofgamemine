@@ -48,18 +48,18 @@ public class ConwayStep {
         Set<BlockPos2D> toUpdate = new ObjectArraySet<>();
         Set<BlockPos2D> newAlive = new ObjectArraySet<>();
         alive.forEach((pos) -> BlockPos2D.addNeighbours(pos,toUpdate));
-        toUpdate.forEach((pos) -> {
+        for (BlockPos2D pos : toUpdate) {
             //see https://en.wikipedia.org/wiki/Conway_game#Rules (the condensed rules)
             int c = countNeighbours(alive, pos);
             if (c == 3) {
                 newAlive.add(pos);
-                return;
+                continue;
             }
             boolean isAlive = alive.contains(pos);
             if (isAlive && c == 2) {
                 newAlive.add(pos);
             }
-        });
+        }
         return newAlive;
     }
 
