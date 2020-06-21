@@ -77,11 +77,7 @@ public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
         }
     }
 
-    /*
-    Saving and loading is *not* needed.
-    The game already calls the onBlockAdded function on every block when a chunk is loaded
-    This will already add all of the stuff into the chunk
-     */
+
     @Override
     public void fromTag(CompoundTag compoundTag) {
         if (compoundTag.contains("conway_alive")) {
