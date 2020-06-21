@@ -3,6 +3,7 @@ package io.github.theepicblock.concraftwaylifeofgamemine;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import nerdhub.cardinal.components.api.component.ComponentProvider;
 import net.minecraft.block.Blocks;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -52,7 +53,13 @@ public class ConwayStep {
             newList.removeAll(blockList);
 
             toRemove.forEach((pos) -> world.setBlockState(pos.to3D(layer), Blocks.AIR.getDefaultState()));
-            newList.forEach((pos) -> world.setBlockState(pos.to3D(layer), ConwayMain.CONWAY_GAME_OF_BLOCK.getDefaultState()));
+            newList.forEach((pos) -> {
+                BlockPos p = pos.to3D(layer);
+                if (!world.getBlockState(p).isAir()) {
+                    world.breakBlock(p,true);
+                }
+                world.setBlockState(p, ConwayMain.CONWAY_GAME_OF_BLOCK.getDefaultState());
+            });
         });
     }
 
