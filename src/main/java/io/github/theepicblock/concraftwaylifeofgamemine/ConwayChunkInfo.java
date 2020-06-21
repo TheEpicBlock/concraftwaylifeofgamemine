@@ -20,8 +20,8 @@ public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
     //TODO add a command to re sync this list with the actual blocks
 
     public void add(BlockPos pos) {
-        aliveBlocks.put(pos);
-        this.addToLoads(pos);
+        boolean c = aliveBlocks.put(pos);
+        if (c) this.addToLoads(pos);
     }
 
     public void remove(BlockPos pos) {
@@ -46,17 +46,19 @@ public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
     private void addToLoads(BlockPos pos) {
         int xRel = getChunkPos(pos.getX());
         int zRel = getChunkPos(pos.getZ());
+        int xCPos = pos.getX() >> 4;
+        int zCPos = pos.getZ() >> 4;
         if (xRel >= 14) {
-            toLoad.add(new ChunkPos(pos.getX()+1,pos.getZ()));
+            toLoad.add(new ChunkPos(xCPos+1,zCPos));
         }
         if (xRel <= 1) {
-            toLoad.add(new ChunkPos(pos.getX()-1,pos.getZ()));
+            toLoad.add(new ChunkPos(xCPos-1,zCPos));
         }
         if (zRel >= 14) {
-            toLoad.add(new ChunkPos(pos.getX(),pos.getZ()+1));
+            toLoad.add(new ChunkPos(xCPos,zCPos+1));
         }
         if (zRel <= 1) {
-            toLoad.add(new ChunkPos(pos.getX(),pos.getZ()-1));
+            toLoad.add(new ChunkPos(xCPos,zCPos-1));
         }
     }
 
@@ -77,28 +79,33 @@ public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
         }
     }
 
+    /*
+    Saving and loading is *not* needed.
+    The game already calls the onBlockAdded function on every block when a chunk is loaded
+    This will already add all of the stuff into the chunk
+     */
     @Override
     public void fromTag(CompoundTag compoundTag) {
-        if (compoundTag.contains("conway_alive")) {
-            long[] toUpdate = compoundTag.getLongArray("conway_alive");
-            aliveBlocks.put(toUpdate);
-        }
-        if (compoundTag.contains("conway_borders")) {
-            long[] toUpdate = compoundTag.getLongArray("conway_borders");
-            for (long l : toUpdate) {
-                toLoad.add(new ChunkPos(l));
-            }
-        }
+//        if (compoundTag.contains("conway_alive")) {
+//            long[] toUpdate = compoundTag.getLongArray("conway_alive");
+//            aliveBlocks.put(toUpdate);
+//        }
+//        if (compoundTag.contains("conway_borders")) {
+//            long[] toUpdate = compoundTag.getLongArray("conway_borders");
+//            for (long l : toUpdate) {
+//                toLoad.add(new ChunkPos(l));
+//            }
+//        }
     }
 
     @Override
     public CompoundTag toTag(CompoundTag compoundTag) {
-        compoundTag.putLongArray("conway_alive", aliveBlocks.toLongList());
-        long[] toLoadLong = new long[toLoad.size()];
-        for (int i = 0; i < toLoad.size(); i++) {
-            toLoadLong[i]  = toLoad.get(i).toLong();
-        }
-        compoundTag.putLongArray("conway_borders", toLoadLong);
+//        compoundTag.putLongArray("conway_alive", aliveBlocks.toLongList());
+//        long[] toLoadLong = new long[toLoad.size()];
+//        for (int i = 0; i < toLoad.size(); i++) {
+//            toLoadLong[i]  = toLoad.get(i).toLong();
+//        }
+//        compoundTag.putLongArray("conway_borders", toLoadLong);
         return compoundTag;
     }
 

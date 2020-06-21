@@ -20,10 +20,10 @@ public class Block2DbyLayer extends Int2ObjectArrayMap<Set<BlockPos2D>> {
         super(capacity);
     }
 
-    public void put(BlockPos pos) {
+    public boolean put(BlockPos pos) {
         int y = pos.getY();
         Set<BlockPos2D> posList = this.getOrPut(y);
-        posList.add(BlockPos2D.from3D(pos));
+        return posList.add(BlockPos2D.from3D(pos));
     }
 
     public void put(long l) {
