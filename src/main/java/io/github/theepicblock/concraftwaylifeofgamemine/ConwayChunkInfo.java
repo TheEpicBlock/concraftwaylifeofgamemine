@@ -9,6 +9,8 @@ import net.minecraft.util.math.ChunkPos;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.theepicblock.concraftwaylifeofgamemine.BlockPos2D.getChunkPos;
+
 /**
  * Contains a list of blocks that need to be updated every conway tick.
  */
@@ -19,12 +21,15 @@ public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
 
     public void add(BlockPos pos) {
         aliveBlocks.put(pos);
-        BlockPos2D.forChunkBorders(pos, toLoad::add);
+        this.addToLoads(pos);
     }
 
     public void remove(BlockPos pos) {
         aliveBlocks.remove(pos);
-        if (BlockPos2D.isOnChunkBorder(pos)) {
+
+        int xRel = getChunkPos(pos.getX());
+        int zRel = getChunkPos(pos.getZ());
+        if (xRel >= 14 | xRel <= 1 | zRel >= 14 | zRel <= 1) {
             recalculateToLoad();
         }
     }
@@ -35,7 +40,41 @@ public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
 
     public void recalculateToLoad() {
         toLoad.clear();
-        aliveBlocks.forEachBlock((layer,pos) -> BlockPos2D.forChunkBorders(pos, toLoad::add));
+        aliveBlocks.forEachBlock((layer,pos) -> this.addToLoads(pos));
+    }
+
+    private void addToLoads(BlockPos pos) {
+        int xRel = getChunkPos(pos.getX());
+        int zRel = getChunkPos(pos.getZ());
+        if (xRel >= 14) {
+            toLoad.add(new ChunkPos(pos.getX()+1,pos.getZ()));
+        }
+        if (xRel <= 1) {
+            toLoad.add(new ChunkPos(pos.getX()-1,pos.getZ()));
+        }
+        if (zRel >= 14) {
+            toLoad.add(new ChunkPos(pos.getX(),pos.getZ()+1));
+        }
+        if (zRel <= 1) {
+            toLoad.add(new ChunkPos(pos.getX(),pos.getZ()-1));
+        }
+    }
+
+    private void addToLoads(BlockPos2D pos) {
+        int xRel = getChunkPos(pos.getX());
+        int zRel = getChunkPos(pos.getZ());
+        if (xRel >= 14) {
+            toLoad.add(new ChunkPos(pos.getX()+1,pos.getZ()));
+        }
+        if (xRel <= 1) {
+            toLoad.add(new ChunkPos(pos.getX()-1,pos.getZ()));
+        }
+        if (zRel >= 14) {
+            toLoad.add(new ChunkPos(pos.getX(),pos.getZ()+1));
+        }
+        if (zRel <= 1) {
+            toLoad.add(new ChunkPos(pos.getX(),pos.getZ()-1));
+        }
     }
 
     @Override
