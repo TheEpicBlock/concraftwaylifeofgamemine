@@ -4,6 +4,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -135,6 +136,30 @@ public class BlockPos2D {
 
     public static int getChunkPos(int i) {
         return i & 15;
+    }
+
+    public static BlockPos2D[] getNeighbours(BlockPos2D c) {
+        BlockPos2D[] arr = new BlockPos2D[8];
+        int t = 0;
+        for (int xOff = -1; xOff <= 1; xOff++) {
+            for (int zOff = -1; zOff <= 1; zOff++) {
+                if (xOff != 0 || zOff != 0) {
+                    arr[t] = new BlockPos2D(c.getX()+xOff,c.getZ()+zOff);
+                    t++;
+                }
+            }
+        }
+        return arr;
+    }
+
+    public static void addNeighbours(BlockPos2D center, Collection<BlockPos2D> toAddTo) {
+        for (int xOff = -1; xOff <= 1; xOff++) {
+            for (int zOff = -1; zOff <= 1; zOff++) {
+                if (xOff != 0 || zOff != 0) {
+                    toAddTo.add(new BlockPos2D(center.getX()+xOff,center.getZ()+zOff));
+                }
+            }
+        }
     }
 
     static {

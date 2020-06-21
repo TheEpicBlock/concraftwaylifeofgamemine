@@ -2,6 +2,7 @@ package io.github.theepicblock.concraftwaylifeofgamemine;
 
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import nerdhub.cardinal.components.api.component.ComponentProvider;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -48,7 +49,7 @@ public class ConwayStep {
     public static Set<BlockPos2D> updateLayer(Set<BlockPos2D> alive) {
         Set<BlockPos2D> toUpdate = new ObjectArraySet<>();
         Set<BlockPos2D> newAlive = new ObjectArraySet<>();
-        alive.forEach((pos) -> toUpdate.addAll(Arrays.asList(getNeighbours(pos))));
+        alive.forEach((pos) -> BlockPos2D.addNeighbours(pos,newAlive));
         toUpdate.forEach((pos) -> {
             //see https://en.wikipedia.org/wiki/Conway_game#Rules (the condensed rules)
             int c = countNeighbours(alive, pos);
@@ -66,26 +67,12 @@ public class ConwayStep {
 
     public static int countNeighbours(Set<BlockPos2D> alive, BlockPos2D pos) {
         int i = 0;
-        for (BlockPos2D p : getNeighbours(pos)) {
+        for (BlockPos2D p : BlockPos2D.getNeighbours(pos)) {
             if (alive.contains(p)) {
                 i++;
             }
         }
         return i;
-    }
-
-    public static BlockPos2D[] getNeighbours(BlockPos2D c) {
-        BlockPos2D[] arr = new BlockPos2D[8];
-        int t = 0;
-        for (int xOff = -1; xOff <= 1; xOff++) {
-            for (int zOff = -1; zOff <= 1; zOff++) {
-                if (xOff != 0 || zOff != 0) {
-                    arr[t] = new BlockPos2D(c.getX()+xOff,c.getZ()+zOff);
-                    t++;
-                }
-            }
-        }
-        return arr;
     }
 
     public static AliveBlockHolder getAliveHolderFromChunk(Chunk chunk) {
