@@ -16,6 +16,7 @@ public class ConwayStep {
     private final World world;
     private final Block2DbyLayer aliveBlocks = new Block2DbyLayer(10);
     private final List<ChunkPos> indexedChunks = new ArrayList<>();
+    private final List<ChunkPos> toBeLoaded = new ArrayList<>();
 
     public ConwayStep(World world) {
         this.world = world;
