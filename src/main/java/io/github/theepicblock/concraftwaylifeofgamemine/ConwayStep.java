@@ -90,12 +90,21 @@ public class ConwayStep {
 
     public static int countNeighbours(Set<BlockPos2D> alive, BlockPos2D pos) {
         int i = 0;
-        for (BlockPos2D p : BlockPos2D.getNeighbours(pos)) {
-            if (alive.contains(p)) {
-                i++;
+        for (int xOff = -1; xOff <= 1; xOff++) {
+            for (int zOff = -1; zOff <= 1; zOff++) {
+                if (xOff != 0 || zOff != 0) {
+                    BlockPos2D a = new BlockPos2D(pos.getX()+xOff,pos.getZ()+zOff);
+                    if (alive.contains(a)) {
+                        i++;
+                        if (i == 4) {
+                            return i; //no point in counting more then 4
+                        }
+                    }
+                }
             }
         }
         return i;
+        //TODO check if this is still slow
     }
 
     public static ConwayChunkInfo getChunkInfo(Chunk chunk) {

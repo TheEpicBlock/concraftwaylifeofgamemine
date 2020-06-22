@@ -30,6 +30,7 @@ public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
         int xRel = getChunkPos(pos.getX());
         int zRel = getChunkPos(pos.getZ());
         if (xRel >= 14 | xRel <= 1 | zRel >= 14 | zRel <= 1) {
+            //TODO don't reload every time, implement some kind of dirty system
             recalculateToLoad();
         }
     }
