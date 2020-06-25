@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "WRW",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:grass"
+    },
+    "R": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "result": {
+    "item": "concraftwaylifeofgamemine:conway_game_of_block",
+    "count": 4
+  }
+}
