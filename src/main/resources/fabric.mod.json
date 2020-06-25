@@ -36,5 +36,12 @@
   },
   "suggests": {
     "flamingo": "*"
+  },
+  "custom": {
+    "modupdater": {
+      "strategy": "github",
+      "owner": "TheEpicBlock",
+      "repository": "concraftwaylifeofgamemine"
+    }
   }
 }
