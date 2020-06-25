@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "concraftwaylifeofgamemine",
-  "description": "concraftwaylifeofgamemine, made for modfest 1.16",
+  "description": "conway's game of life in minecraft, made for modfest 1.16",
   "authors": [
     "TheEpicBlock_TEB"
   ],
@@ -20,6 +20,9 @@
   "entrypoints": {
     "main": [
       "io.github.theepicblock.concraftwaylifeofgamemine.ConwayMain"
+    ],
+    "client": [
+      "io.github.theepicblock.concraftwaylifeofgamemine.ConwayClient"
     ]
   },
   "mixins": [

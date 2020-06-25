@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class ConwayMain implements ModInitializer {
-    public static final ConwayGameOfBlock CONWAY_GAME_OF_BLOCK = new ConwayGameOfBlock(FabricBlockSettings.of(Material.GLASS));
+    public static final ConwayGameOfBlock CONWAY_GAME_OF_BLOCK = new ConwayGameOfBlock(FabricBlockSettings.of(Material.GLASS).nonOpaque());
     public static final String MOD_ID = "concraftwaylifeofgamemine";
     public static final ComponentType<ConwayChunkInfo> CHUNKINFO = ComponentRegistry.INSTANCE.registerIfAbsent(new Identifier(MOD_ID, "update_holder"), ConwayChunkInfo.class);
 
