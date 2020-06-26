@@ -32,12 +32,14 @@ public class ServerChunkManagerMixin {
     @SuppressWarnings("UnresolvedMixinReference")
     @Inject(method = "method_20801", at = @At("HEAD"))
     public void chunkUpdateInject(long something, boolean something2, SpawnHelper.Info spawnInfo, boolean something3, int nothing, ChunkHolder chunkHolder, CallbackInfo ci) {
+        this.world.getProfiler().push("conwayBlocks");
         if (ConwayMain.isTickConway(world.getServer().getTicks())) {
             Chunk chunk = chunkHolder.getCompletedChunk();
             if (chunk != null && ChunkHolder.getLevelType(chunkHolder.getLevel()).isAfter(ChunkHolder.LevelType.TICKING)) {
                 ConwayCurrentStep.add(chunk);
             }
         }
+        this.world.getProfiler().pop();
     }
 
     /**
