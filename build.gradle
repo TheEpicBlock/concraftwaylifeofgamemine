@@ -28,6 +28,8 @@ dependencies {
 
 	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.4.0"
 	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:2.4.0"
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.4.0"
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:2.4.0"
 }
 
 processResources {

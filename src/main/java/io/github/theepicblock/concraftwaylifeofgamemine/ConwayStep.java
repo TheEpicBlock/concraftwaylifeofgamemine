@@ -28,6 +28,7 @@ public class ConwayStep {
         indexedChunks.add(chunk.getPos());
 
         ConwayChunkInfo chunkInfo = getChunkInfo(chunk);
+        chunkInfo.recalculateToLoad();
         aliveBlocks.putAll(chunkInfo.getAliveBlocks());
         toBeLoaded.addAll(chunkInfo.getToLoad());
     }

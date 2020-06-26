@@ -17,6 +17,7 @@ import static io.github.theepicblock.concraftwaylifeofgamemine.BlockPos2D.getChu
 public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
     private final Block2DbyLayer aliveBlocks = new Block2DbyLayer(0);
     private final List<ChunkPos> toLoad = new ArrayList<>(0);
+    private boolean isDirty;
     //TODO add a command to re sync this list with the actual blocks
 
     public void add(BlockPos pos) {
@@ -30,14 +31,15 @@ public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
         int xRel = getChunkPos(pos.getX());
         int zRel = getChunkPos(pos.getZ());
         if (xRel >= 14 | xRel <= 1 | zRel >= 14 | zRel <= 1) {
-            //TODO don't reload every time, implement some kind of dirty system
-            recalculateToLoad();
+            isDirty = true;
         }
     }
 
     public void recalculateToLoad() {
-        toLoad.clear();
-        aliveBlocks.forEachBlock((layer,pos) -> this.addToLoads(pos));
+        if (isDirty) {
+            toLoad.clear();
+            aliveBlocks.forEachBlock((layer,pos) -> this.addToLoads(pos));
+        }
     }
 
     private void addToLoads(BlockPos pos) {
@@ -91,6 +93,7 @@ public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
                 toLoad.add(new ChunkPos(l));
             }
         }
+        isDirty = compoundTag.getBoolean("isDirty");
     }
 
     @Override
@@ -101,6 +104,7 @@ public class ConwayChunkInfo implements CopyableComponent<ConwayChunkInfo> {
             toLoadLong[i]  = toLoad.get(i).toLong();
         }
         compoundTag.putLongArray("conway_borders", toLoadLong);
+        compoundTag.putBoolean("is_dirty", isDirty);
         return compoundTag;
     }
 
