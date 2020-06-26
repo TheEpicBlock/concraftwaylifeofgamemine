@@ -1,15 +1,18 @@
 package io.github.theepicblock.concraftwaylifeofgamemine;
 
 import nerdhub.cardinal.components.api.component.ComponentProvider;
-import net.minecraft.block.Block;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.block.AbstractGlassBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.CollisionView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 
-public class ConwayGameOfBlock extends Block {
+public class ConwayGameOfBlock extends AbstractGlassBlock {
     public ConwayGameOfBlock(Settings settings) {
         super(settings);
     }
@@ -43,5 +46,10 @@ public class ConwayGameOfBlock extends Block {
             return ComponentProvider.fromChunk(((WorldView) blockView).getChunk(pos));
         }
         return null;
+    }
+
+    @Environment(EnvType.CLIENT)
+    public boolean isSideInvisible(BlockState state, BlockState stateFrom, Direction direction) {
+        return !(direction == Direction.UP);
     }
 }
