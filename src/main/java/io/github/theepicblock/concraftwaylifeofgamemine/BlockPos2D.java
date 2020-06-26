@@ -115,6 +115,16 @@ public class BlockPos2D {
         }
     }
 
+    public static void addNeighbours(int x, int z, Fast2Dlayer toAddTo) {
+        for (int xOff = -1; xOff <= 1; xOff++) {
+            for (int zOff = -1; zOff <= 1; zOff++) {
+                if (xOff != 0 || zOff != 0) {
+                    toAddTo.put(x+xOff,z+zOff);
+                }
+            }
+        }
+    }
+
     static {
         SIZE_BITS_X = 1 + MathHelper.log2(MathHelper.smallestEncompassingPowerOfTwo(30000000));
         SIZE_BITS_Z = SIZE_BITS_X;

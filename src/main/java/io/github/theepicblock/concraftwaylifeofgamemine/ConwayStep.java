@@ -1,6 +1,6 @@
 package io.github.theepicblock.concraftwaylifeofgamemine;
 
-import it.unimi.dsi.fastutil.objects.ObjectArraySet;
+import it.unimi.dsi.fastutil.ints.IntCollection;
 import nerdhub.cardinal.components.api.component.ComponentProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -12,11 +12,10 @@ import net.minecraft.world.chunk.Chunk;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class ConwayStep {
     private final World world;
-    private final Block2DbyLayer aliveBlocks = new Block2DbyLayer(10);
+    private final FastLookupBlock2DbyLayer aliveBlocks = new FastLookupBlock2DbyLayer(10);
     private final List<ChunkPos> indexedChunks = new ArrayList<>();
     private final List<ChunkPos> toBeLoaded = new ArrayList<>();
 
@@ -46,15 +45,15 @@ public class ConwayStep {
         }
 
         //Update layers
-        aliveBlocks.forEach((layer,blockList) -> {
-            Set<BlockPos2D> newList = updateLayer(blockList);
-            List<BlockPos2D> toRemove = new ArrayList<>(blockList);
-            toRemove.removeAll(newList);
-            newList.removeAll(blockList);
+        aliveBlocks.forEach((layer,xyMap) -> {
+            Fast2Dlayer newList = updateLayer(xyMap);
 
-            toRemove.forEach((pos) -> world.setBlockState(pos.to3D(layer), Blocks.AIR.getDefaultState()));
-            newList.forEach((pos) -> {
-                BlockPos p = pos.to3D(layer);
+            Fast2Dlayer toRemove = Fast2Dlayer.getMissing(xyMap,newList);
+            newList.removeAll(xyMap);
+
+            toRemove.forEachPos((x, z) -> world.setBlockState(new BlockPos(x,layer,z), Blocks.AIR.getDefaultState()));
+            newList.forEachPos((x, z) -> {
+                BlockPos p = new BlockPos(x,layer,z);
                 BlockState prev = world.getBlockState(p);
                 if (!prev.isAir()) {
                     if (prev.isIn(BlockTags.WITHER_IMMUNE)) {
@@ -67,42 +66,43 @@ public class ConwayStep {
         });
     }
 
-    public static Set<BlockPos2D> updateLayer(Set<BlockPos2D> alive) {
-        Set<BlockPos2D> toUpdate = new ObjectArraySet<>();
-        Set<BlockPos2D> newAlive = new ObjectArraySet<>();
-        alive.forEach((pos) -> BlockPos2D.addNeighbours(pos,toUpdate));
-        for (BlockPos2D pos : toUpdate) {
-            //see https://en.wikipedia.org/wiki/Conway_game#Rules (the condensed rules)
-            int c = countNeighbours(alive, pos);
+    public static Fast2Dlayer updateLayer(Fast2Dlayer alive) {
+        Fast2Dlayer toUpdate = new SetBackedFast2Dlayer();
+        Fast2Dlayer newAlive = new Fast2Dlayer();
+        alive.forEachPos((PosConsumer) (x, z) -> BlockPos2D.addNeighbours(x,z,toUpdate));
+        toUpdate.forEachPos((PosConsumer) (x, z) -> {
+            int c = countNeighbours(alive, x, z);
             if (c == 3) {
-                newAlive.add(pos);
-                continue;
+                newAlive.put(x,z);
+                return;
             }
-            boolean isAlive = alive.contains(pos);
+            boolean isAlive = alive.contains(x,z);
             if (isAlive && c == 2) {
-                newAlive.add(pos);
+                newAlive.put(x,z);
             }
-        }
+        });
         return newAlive;
     }
 
-    public static int countNeighbours(Set<BlockPos2D> alive, BlockPos2D pos) {
+    public static int countNeighbours(Fast2Dlayer alive, int x, int z) {
         int i = 0;
         for (int xOff = -1; xOff <= 1; xOff++) {
+            IntCollection zList = alive.get(x+xOff);
+            if (zList == null) {
+                continue;
+            }
             for (int zOff = -1; zOff <= 1; zOff++) {
                 if (xOff != 0 || zOff != 0) {
-                    BlockPos2D a = new BlockPos2D(pos.getX()+xOff,pos.getZ()+zOff);
-                    if (alive.contains(a)) {
+                    if (zList.contains(z+zOff)) {
                         i++;
                         if (i == 4) {
-                            return i; //no point in counting more then 4
+                            return i; //no point in counting further than 4
                         }
                     }
                 }
             }
         }
         return i;
-        //TODO check if this is still slow
     }
 
     public static ConwayChunkInfo getChunkInfo(Chunk chunk) {
