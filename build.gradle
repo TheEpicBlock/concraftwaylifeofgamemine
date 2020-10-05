@@ -26,10 +26,10 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.4.0"
-	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:2.4.0"
-	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.4.0"
-	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:2.4.0"
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.6.0"
+	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:2.6.0"
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.6.0"
+	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:2.6.0"
 }
 
 processResources {

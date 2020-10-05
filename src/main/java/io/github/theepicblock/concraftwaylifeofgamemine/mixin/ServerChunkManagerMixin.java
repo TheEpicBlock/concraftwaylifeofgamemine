@@ -34,7 +34,7 @@ public class ServerChunkManagerMixin {
     public void chunkUpdateInject(long something, boolean something2, SpawnHelper.Info spawnInfo, boolean something3, int nothing, ChunkHolder chunkHolder, CallbackInfo ci) {
         this.world.getProfiler().push("conwayBlocks");
         if (ConwayMain.isTickConway(world.getServer().getTicks())) {
-            Chunk chunk = chunkHolder.getCompletedChunk();
+            Chunk chunk = chunkHolder.getCurrentChunk();
             if (chunk != null && ChunkHolder.getLevelType(chunkHolder.getLevel()).isAfter(ChunkHolder.LevelType.TICKING)) {
                 ConwayCurrentStep.add(chunk);
             }

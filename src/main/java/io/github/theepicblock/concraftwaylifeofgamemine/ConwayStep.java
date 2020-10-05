@@ -33,7 +33,7 @@ public class ConwayStep {
     }
 
     public void add(ChunkPos pos) {
-        add(world.getChunk(pos.getCenterBlockPos()));
+        add(world.getChunk(pos.x, pos.z));
     }
 
     public void doStuff() {
