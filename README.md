@@ -16,5 +16,7 @@ You could also use this to farm blocks, since they drop blocks they break. Maybe
 Con-craft way life of game mine is surprisingly quite performant. When no blocks are present, you shouldn't notice any lag. With a lot of blocks lag will happen though. This is largely due to the amount of blocks changed, something I can't optimize. Con-craft way life of game mine adds a section to the profiler to track the amount of time it takes to calculate and replace blocks.
 ### chunks
 Conway blocks will kinda load chunks when needed. The loaded chunk won't tick, redstone won't function etc. The only thing that'll happen in that chunk are conway block updates.
+# Gimme Forge!1!!!1!!!
+Please check out [this](https://www.curseforge.com/minecraft/mc-mods/game-of-life-3d-forge) awesome looking mod for Forge and Fabric 1.15.2 :)
 ## notes
 [1] The `wither_immune` block tag is being used to check which blocks can be broken or not
